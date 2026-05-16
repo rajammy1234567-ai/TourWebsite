@@ -41,7 +41,7 @@ export default function TourDetails() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/auth/send-otp",
+        "https://tour-website-chi-ashen.vercel.app/api/auth/send-otp",
         { contact }
       );
 
@@ -61,7 +61,7 @@ export default function TourDetails() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/auth/verify-otp",
+        "http://tour-website-chi-ashen.vercel.app/api/auth/verify-otp",
         { contact, otp }
       );
 
