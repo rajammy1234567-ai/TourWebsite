@@ -7,7 +7,7 @@ import toursData from "../data/toursData";
 import { useNavigate } from "react-router-dom";
 import "../styles/tourdetails.css";
 
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function TourDetails() {
   const navigate =  useNavigate();
@@ -25,7 +25,7 @@ export default function TourDetails() {
   if (!tour) return <h2>Tour not found</h2>;
   
   const handleBookNow = () =>{
-  const user = JSON.parse(localStorage.getItem("user"));
+const user = JSON.parse(localStorage.getItem("user") || "null");
 
   if (user) {
     navigate("/bookingform"); // direct redirect
@@ -41,7 +41,7 @@ export default function TourDetails() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://tour-website-chi-ashen.vercel.app/api/auth/send-otp",
+        `${API_URL}/auth/send-otp`,
         { contact }
       );
 
@@ -61,7 +61,7 @@ export default function TourDetails() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://tour-website-chi-ashen.vercel.app/api/auth/verify-otp",
+        `${API_URL}/auth/verify-otp`,
         { contact, otp }
       );
 
