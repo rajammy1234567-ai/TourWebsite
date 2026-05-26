@@ -9,7 +9,7 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// Tour database (should be in real DB)
+// Tour database (should be in real DB) 
 const tours = [
   { id: 1, name: "Paris Tour", price: 27000 },
   { id: 2, name: "London Tour", price: 15000 },

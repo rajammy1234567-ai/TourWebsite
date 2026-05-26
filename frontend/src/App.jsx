@@ -11,6 +11,7 @@ import Payment from "./pages/Payment"
 import Success from "./pages/Success";
 import BookingFormPage from "./pages/BookingForm"
 import { BookingForm } from "./components/BookingForm";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/success" element={<Success />} />
         <Route path="/bookingform" element={<BookingForm />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

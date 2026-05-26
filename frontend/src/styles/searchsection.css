@@ -104,3 +104,19 @@
   cursor: pointer;
   white-space: nowrap;
 }
+
+/* MOBILE FIXES */
+@media (max-width: 768px) {
+  .fl-wrapper {
+    padding: 20px 0; /* Remove left/right padding for edge-to-edge marquee */
+  }
+  
+  .fl-search {
+    flex-direction: column;
+    padding: 0 20px; /* Add padding back to search bar */
+  }
+  
+  .fl-search input, .fl-search button {
+    width: 100%;
+  }
+}

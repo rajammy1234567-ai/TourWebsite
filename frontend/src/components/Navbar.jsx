@@ -74,7 +74,7 @@ export default function Navbar() {
           </div>
 
           <div className="fl-download">
-            <a href="/app.apk" download className="download-btn">
+            <a href="/application-80c6153b-97ab-45ec-840a-930629c51db9.apk" download className="download-btn">
               <FaDownload /> Download App
             </a>
           </div>
@@ -98,13 +98,15 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* HAMBURGER */}
-        <div className="fl-menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-          <span></span>
-          <span></span>
-          <span></span>
+        {/* NAV RIGHT GROUP (HAMBURGER + NOTIFICATION) */}
+        <div className="fl-nav-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <div className="fl-menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <Notification />
         </div>
-        <Notification />
       </nav>
     </div>
   );

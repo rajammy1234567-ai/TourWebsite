@@ -75,7 +75,7 @@ export default function Home() {
               to={`/tour/${tour.id}`}
               className="fl-home-card"
               style={{
-                color: "black",
+                color: "white",
                 textDecoration: "none",
               }}
             >

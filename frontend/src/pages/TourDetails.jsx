@@ -15,10 +15,9 @@ export default function TourDetails() {
   const tour = toursData.find((t) => t.id === Number(id));
 
   const [showLogin, setShowLogin] = useState(false);
-
-  const [contact, setContact] = useState("");
-  const [otp, setOtp] = useState("");
-  const [step, setStep] = useState(1); // 1 = contact, 2 = OTP
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -35,50 +34,29 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
   }
 
   
-  const handleSendOtp = async () => {
-    if (!contact) return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name || !email || !password) return;
 
     try {
       setLoading(true);
       const res = await axios.post(
-        `${API_URL}/auth/send-otp`,
-        { contact }
+        `${API_URL}/auth/signup`,
+        { name, email, password }
       );
 
       setMessage(res.data.message);
-      setStep(2);
+      
+      if (res.data.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        
+        setTimeout(() => {
+          setShowLogin(false);
+          navigate('/bookingform');
+        }, 800);
+      }
     } catch (err) {
-      setMessage(err.response?.data?.message || "Error sending OTP");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  const handleVerifyOtp = async () => {
-    if (!otp) return;
-
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        `${API_URL}/auth/verify-otp`,
-        { contact, otp }
-      );
-
-      setMessage(res.data.message);
-
-   
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-
-
-      setShowLogin(false);
-      resetState();
-
-      navigate('/bookingform')
-
-        // alert("Booking Confirmed ✅");
-    } catch (err) {
-      setMessage(err.response?.data?.message || "Invalid OTP");
+      setMessage(err.response?.data?.message || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -131,60 +109,44 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
       <span className="close-btn" onClick={() => setShowLogin(false)}>✖</span>
 
       <div className="modal-content">
-        <h2>Login to Continue</h2>
-        <p className="subtitle">Enter OTP sent to your number</p>
+        <h2>Create an Account</h2>
+        <p className="subtitle">Sign up to get started</p>
 
-        {/* STEP 1 */}
-        {step === 1 && (
-          <>
-            <input
-              type="text"
-              placeholder="Enter Phone / Email"
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
-              className="input-field"
-            />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="input-field"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="input-field"
+            required
+          />
 
-            <button
-              className="primary-btn"
-              onClick={handleSendOtp}
-              disabled={loading}
-            >
-              {loading ? "Sending..." : "Send OTP"}
-            </button>
-          </>
-        )}
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input-field"
+            required
+          />
 
-        {/* STEP 2 */}
-        {step === 2 && (
-          <>
-            <input
-              type="text"
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              className="input-field"
-            />
-
-            <button
-              className="primary-btn"
-              onClick={handleVerifyOtp}
-              disabled={loading}
-            >
-              {loading ? "Verifying..." : "Verify OTP"}
-            </button>
-
-            <div className="divider">OR</div>
-
-            <button
-              className="secondary-btn"
-              onClick={handleSendOtp}
-              disabled={loading}
-            >
-              Resend OTP
-            </button>
-          </>
-        )}
+          <button
+            type="submit"
+            className="primary-btn"
+            disabled={loading}
+          >
+            {loading ? "Please wait..." : "Sign Up"}
+          </button>
+        </form>
 
         {/* MESSAGE */}
         {message && <p className="error-msg">{message}</p>}
